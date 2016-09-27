@@ -18,7 +18,19 @@ example =
   , [Nothing,Just 8, Just 3, Nothing,Nothing,Nothing,Nothing,Just 6, Nothing]
   , [Nothing,Nothing,Just 7, Just 6, Just 9, Nothing,Nothing,Just 4, Just 3]
   ]
-
+example2 :: Sudoku
+example2 =
+   Sudoku
+    [ [Just 1, Just 1, Just 1, Just 1, Just 1, Just 1, Just 1, Just 1, Just 1]
+    , [Just 2, Just 2, Just 2, Just 2, Just 2, Just 2, Just 2, Just 2, Just 2]
+    , [Just 3, Just 3, Just 3, Just 3, Just 3, Just 3, Just 3, Just 3, Just 3]
+    , [Just 4, Just 4, Just 4, Just 4, Just 4, Just 4, Just 4, Just 4, Just 4]
+    , [Just 5, Just 5, Just 5, Just 5, Just 5, Just 5, Just 5, Just 5, Just 5]
+    , [Just 6, Just 6, Just 6, Just 6, Just 6, Just 6, Just 6, Just 6 ,Just 6]
+    , [Just 7, Just 7, Just 7, Just 7, Just 7, Just 7, Just 7, Just 7 ,Just 7]
+    , [Just 8, Just 8, Just 8, Just 8, Just 8, Just 8, Just 8, Just 8 ,Just 8]
+    , [Just 9, Just 9, Just 9, Just 9, Just 9, Just 9, Just 9, Just 9 ,Just 9]
+    ]
 
 -------------------------------------------------------------------------
 data Sudoku = Sudoku [[Maybe Int]]
@@ -135,9 +147,9 @@ prop_Blank sud = (((rows sud) !! (fst $ blank sud))
 -- E2
 --
 (!!=) :: [a] -> (Int,a) -> [a]
-list !!= (i, e) | i < 0 || i > (length list - 1) =
-                                error ("(!!=): Not a valid index")
-                | otherwise =  (take i list) ++ (e:(drop (i+1) list))
+list !!= (i, e)
+        | i < 0 || i > (length list - 1) = error "yoyoyoyo"
+        | otherwise =  (take i list) ++ (e:(drop (i+1) list))
 
 prop_ChangElem_size :: [Int] -> (Int,Int) -> Bool
 prop_ChangElem_size list p = length list == (length $ list !!= p)
