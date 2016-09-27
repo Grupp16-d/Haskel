@@ -118,6 +118,15 @@ isOkayBlock b = (length $ nubBy (\x y -> x == y && (x /= Nothing)) b) == 9
 Måste oxå lägga till property-}
 -- D2
 -- Breaks up a Sudoku in blocks (9 rows, 9 colums and 9 3*3 blocks)
+
+
+-- | ----------- Exempel att kolla på---------- | ---
+
+getElem (x:y:z:zz:xs) = [x,y,z]: getElem (zz:xs)
+getElem _ = [ ]
+
+-- | ------------------------------------------ | --
+
 blocks :: Sudoku -> [Block]
 blocks sud = rows sud ++ transpose (rows sud)
 
@@ -168,8 +177,9 @@ update :: Sudoku -> Pos -> Maybe Int -> Sudoku
 update sud (y,x) e = Sudoku (rows sud !!= (y, (rows sud !! y) !!= (x,e)))
 
 -- Checks that the updated position really has gotten the new value
---prop_update :: [[Maybe Int]] -> (Int, Int) -> Maybe Int -> Bool
---prop_update sud (x, y) e = e == (rows update((rows sud) (x, y) (e))!! y) !! x
+prop_update :: Sudoku -> (Int, Int) -> Maybe Int -> Bool
+prop_update sud (x, y) e = e == (rows (update sud (x, y) (e)) !! y) !! x
+
 
 -- Assignment F
 -------------------------------------------------------------------------
