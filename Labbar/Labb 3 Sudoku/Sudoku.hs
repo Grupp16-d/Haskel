@@ -118,21 +118,26 @@ isOkayBlock b = (length $ nubBy (\x y -> x == y && (x /= Nothing)) b) == 9
 Måste oxå lägga till property-}
 -- D2
 -- Breaks up a Sudoku in blocks (9 rows, 9 colums and 9 3*3 blocks)
+yay sud = [(x,y,z) | (x , (y,z))
+                    <- [(x, splitAt 3 y) | (x,y)
+                    <- [splitAt 3 r | r
+                    <- rows sud]]]
 
-
+hej :: [(a,a,a)] -> [(a,a,a)]
+hej [(a,b,c):ds] =
 -- | ----------- Exempel att kolla på---------- | ---
 
-getElem (x:y:z:zz:xs) = [x,y,z]: getElem (zz:xs)
-getElem _             = [ ]
+--getElem (x:y:z:zz:xs) = [x,y,z]: getElem (zz:xs)
+--getElem _             = [ ]
 
 -- | ------------------------------------------ | --
+
 
 blocks :: Sudoku -> [Block]
 blocks sud = rows sud ++ transpose (rows sud)
 
 square (a:b:c:ds) = [a,b,c] : square ds
 square _          = [ ]
-
 
 -- Property for blcoks funktion check if there are 3*9 blocks,
 -- and each block has exactly 9 cells.
@@ -198,17 +203,17 @@ pickASolution suds = undefined
 -- F2
 --
 readAndSolve :: FilePath -> IO ()
-readAndSolve = undefinde
+readAndSolve = undefined
 
 -- F3
 --
 isSolutionOf :: Sudoku -> Sudoku -> Bool
-isSolutionOf = undefinde
+isSolutionOf = undefined
 
 -- F4
 --
 prop_SolveSound :: Sudoku -> Property
-prop_SolveSound = undefinde
+prop_SolveSound = undefined
 
 -- Assignment x
 -------------------------------------------------------------------------
