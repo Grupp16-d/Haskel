@@ -130,12 +130,9 @@ getElem _             = [ ]
 blocks :: Sudoku -> [Block]
 blocks sud = rows sud ++ transpose (rows sud)
 
-test (a:b:c:ds) = [a,b,c] : test ds
-test _          = [ ]
+square (a:b:c:ds) = [a,b,c] : square ds
+square _          = [ ]
 
-test1 = [test r | r <- [[1..9],[11..19]]]
-boxes =  map concat . test . concat . transpose . map test
-grid = [ [ [i,j] | j <- ['1'..'9'] ] | i <- ['a'..'i'] ]
 
 -- Property for blcoks funktion check if there are 3*9 blocks,
 -- and each block has exactly 9 cells.
@@ -173,7 +170,6 @@ list !!= (i, e)
 prop_ChangElem_size :: [Int] -> (Int,Int) -> Bool
 prop_ChangElem_size list p = length list == (length $ list !!= p)
 
-
 -- E3
 --Change the valeu of a element in a givven possision
 update :: Sudoku -> Pos -> Maybe Int -> Sudoku
@@ -198,3 +194,30 @@ solve s | undefined = Nothing  -- There's a violation in s
 
 pickASolution :: [Maybe Sudoku] -> Maybe Sudoku
 pickASolution suds = undefined
+
+-- F2
+--
+readAndSolve :: FilePath -> IO ()
+readAndSolve = undefinde
+
+-- F3
+--
+isSolutionOf :: Sudoku -> Sudoku -> Bool
+isSolutionOf = undefinde
+
+-- F4
+--
+prop_SolveSound :: Sudoku -> Property
+prop_SolveSound = undefinde
+
+-- Assignment x
+-------------------------------------------------------------------------
+
+-- Assignment z
+-------------------------------------------------------------------------
+
+-- Assignment P
+-------------------------------------------------------------------------
+
+-- Assignment q
+-------------------------------------------------------------------------
