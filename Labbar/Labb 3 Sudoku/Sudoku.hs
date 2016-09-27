@@ -109,6 +109,7 @@ Måste oxå lägga till property-}
 blocks :: Sudoku -> [Block]
 blocks sud = [r | r <-  rows sud] ++ [c | c <- transpose (rows sud)]
 
+
 -- D3
 -- Check if the sudoku do not coantin dublicate numbers in a block
 isOkay :: Sudoku -> Bool
