@@ -150,7 +150,8 @@ prop_Blank sud = (((rows sud) !! (fst $ blank sud))
                               !! (snd $ blank sud)) == Nothing
 
 -- E2
---
+-- Change the valeu of an element. wher the element is grater then 0 and
+-- less then the leght of the list
 (!!=) :: [a] -> (Int,a) -> [a]
 list !!= (i, e)
     | i < 0 || i > (length list - 1) = error "!!= To smal or to big element"
@@ -162,7 +163,7 @@ prop_ChangElem_size list p = length list == (length $ list !!= p)
 
 
 -- E3
---
+--Change the valeu of a element in a givven possision
 update :: Sudoku -> Pos -> Maybe Int -> Sudoku
 --update sud (y,x) e = ((rows sud) !! y) !!= (x, e)
 update sud (y,x) e = Sudoku $
@@ -172,7 +173,8 @@ update sud (y,x) e = Sudoku $
 
 
 -- Checks that the updated position really has gotten the new value
---prop_update =
+prop_update :: [a] -> (Int, a) -> Bool
+prop_update s (i,x) =
 
 -- Assignment F
 -------------------------------------------------------------------------
