@@ -175,8 +175,8 @@ update sud (y,x) e = Sudoku $
 -}
 
 -- Checks that the updated position really has gotten the new value
---prop_update :: Sudoku -> [Int, Int] -> Bool
---prop_update sud (x, y) e = e == (rows sud !! y) !! x
+prop_update :: [[Maybe Int]] -> (Int, Int) -> Maybe Int -> Bool
+prop_update sud (x, y) e = e == (rows update((rows sud) (x, y) (e))!! y) !! x
 
 -- Assignment F
 -------------------------------------------------------------------------
