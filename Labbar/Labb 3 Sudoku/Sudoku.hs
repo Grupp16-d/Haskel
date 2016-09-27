@@ -119,8 +119,12 @@ Måste oxå lägga till property-}
 -- D2
 -- Breaks up a Sudoku in blocks (9 rows, 9 colums and 9 3*3 blocks)
 blocks :: Sudoku -> [Block]
-blocks sud = [r | r <-  rows sud] ++ [c | c <- transpose (rows sud)]
+blocks sud = rows sud ++ transpose (rows sud)
 
+test []         = []
+test (a:b:c:ds) = [a,b,c] : test ds
+
+test1 = [test r | r <- [[1..9],[11..19]]]
 -- Property for blcoks funktion check if there are 3*9 blocks,
 -- and each block has exactly 9 cells.
 --prop_blocks =
@@ -144,15 +148,18 @@ blank sud = head [(iRow, iPos r)
 -- Check that there are a Nothing at the possision given by blank
 prop_Blank sud = (((rows sud) !! (fst $ blank sud))
                               !! (snd $ blank sud)) == Nothing
+
 -- E2
 --
 (!!=) :: [a] -> (Int,a) -> [a]
 list !!= (i, e)
-        | i < 0 || i > (length list - 1) = error "yoyoyoyo"
-        | otherwise =  (take i list) ++ (e:(drop (i+1) list))
+    | i < 0 || i > (length list - 1) = error "yoyoyoyo"
+    | otherwise =  (take i list) ++ (e:(drop (i+1) list))
 
+-- Check if the leght of the list is the same after change.
 prop_ChangElem_size :: [Int] -> (Int,Int) -> Bool
 prop_ChangElem_size list p = length list == (length $ list !!= p)
+
 
 -- E3
 --
