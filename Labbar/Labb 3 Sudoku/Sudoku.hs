@@ -137,7 +137,6 @@ test1 = [test r | r <- [[1..9],[11..19]]]
 boxes =  map concat . test . concat . transpose . map test
 grid = [ [ [i,j] | j <- ['1'..'9'] ] | i <- ['a'..'i'] ]
 
-
 -- Property for blcoks funktion check if there are 3*9 blocks,
 -- and each block has exactly 9 cells.
 --prop_blocks =
