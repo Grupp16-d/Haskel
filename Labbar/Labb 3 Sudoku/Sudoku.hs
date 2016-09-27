@@ -167,13 +167,6 @@ prop_ChangElem_size list p = length list == (length $ list !!= p)
 update :: Sudoku -> Pos -> Maybe Int -> Sudoku
 update sud (y,x) e = Sudoku (rows sud !!= (y, (rows sud !! y) !!= (x,e)))
 
-{-
-update sud (y,x) e = Sudoku $
-    (take y (rows sud)) ++
-    [(rows sud !! y) !!= (x, e)] ++
-    (drop (y+1) (rows sud))
--}
-
 -- Checks that the updated position really has gotten the new value
 --prop_update :: [[Maybe Int]] -> (Int, Int) -> Maybe Int -> Bool
 --prop_update sud (x, y) e = e == (rows update((rows sud) (x, y) (e))!! y) !! x
