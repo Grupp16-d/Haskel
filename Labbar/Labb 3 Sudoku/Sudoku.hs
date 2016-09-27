@@ -18,8 +18,9 @@ example =
   , [Nothing,Just 8, Just 3, Nothing,Nothing,Nothing,Nothing,Just 6, Nothing]
   , [Nothing,Nothing,Just 7, Just 6, Just 9, Nothing,Nothing,Just 4, Just 3]
   ]
--------------------------------------------------------------------------
 
+
+-------------------------------------------------------------------------
 data Sudoku = Sudoku [[Maybe Int]]
  deriving ( Show, Eq )
 
@@ -29,6 +30,8 @@ type Pos = (Int, Int)
 rows :: Sudoku -> [[Maybe Int]]
 rows (Sudoku rs) = rs
 
+-- Assignment A
+-------------------------------------------------------------------------
 -- A1
 -- AllBlankSudoku is a sudoku with just blanks
 allBlankSudoku :: Sudoku
@@ -49,6 +52,7 @@ isSudoku sud = and [numRows sud, numElem sud, valueElem sud]
 isSolved :: Sudoku -> Bool
 isSolved sud = and [Nothing `notElem` r | r <- rows sud]
 
+-- Assignment B
 -------------------------------------------------------------------------
 -- B1
 -- PrintSudoku sud prints a representation of the sudoku sud on the screen
@@ -72,7 +76,7 @@ readSudoku file = do
             symCon' e | e == '.'  = Nothing
                       | otherwise = Just (digitToInt e)
 
-
+-- Assignment C
 -------------------------------------------------------------------------
 -- C1
 -- Cell generates an arbitrary cell in a Sudoku
@@ -91,6 +95,7 @@ instance Arbitrary Sudoku where
 prop_Sudoku :: Sudoku -> Bool
 prop_Sudoku sud = isSudoku sud
 
+-- Assignment D
 -------------------------------------------------------------------------
 -- D1
 -- Remove all dublicate numbers, then checks that the lenght still is 9
@@ -109,6 +114,7 @@ blocks sud = [r | r <-  rows sud] ++ [c | c <- transpose (rows sud)]
 isOkay :: Sudoku -> Bool
 isOkay sud = and [isOkayBlock b | b <- blocks sud]
 
+-- Assignment E
 -------------------------------------------------------------------------
 -- E1
 -- iRow = index for a row that contains a nothing
@@ -137,6 +143,7 @@ prop_ChangElem_size list p = length list == (length $ list !!= p)
 update :: Sudoku -> Pos -> Maybe Int -> Sudoku
 update = undefined
 
+-- Assignment F
 -------------------------------------------------------------------------
 -- F1
 --
