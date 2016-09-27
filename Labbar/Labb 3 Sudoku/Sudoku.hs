@@ -109,6 +109,9 @@ Måste oxå lägga till property-}
 blocks :: Sudoku -> [Block]
 blocks sud = [r | r <-  rows sud] ++ [c | c <- transpose (rows sud)]
 
+-- Property for blcoks funktion check if there are 3*9 blocks,
+-- and each block has exactly 9 cells.
+--prop_blocks =
 
 -- D3
 -- Check if the sudoku do not coantin dublicate numbers in a block
