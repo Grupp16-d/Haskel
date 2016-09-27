@@ -163,13 +163,12 @@ prop_ChangElem_size list p = length list == (length $ list !!= p)
 
 -- E3
 --
-
 update :: Sudoku -> Pos -> Maybe Int -> Sudoku
 --update sud (y,x) e = ((rows sud) !! y) !!= (x, e)
 update sud (y,x) e = Sudoku $
     (take y (rows sud)) ++
     [(rows sud !! y) !!= (x, e)] ++
-    (drop y (rows sud))
+    (drop (y+1) (rows sud))
 
 
 -- Checks that the updated position really has gotten the new value
