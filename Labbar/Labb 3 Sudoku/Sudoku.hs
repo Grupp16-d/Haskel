@@ -118,15 +118,18 @@ isOkayBlock b = (length $ nubBy (\x y -> x == y && (x /= Nothing)) b) == 9
 -- D2
 -- Breaks up a Sudoku in blocks (9 rows, 9 colums and 9 3*3 blocks)
 blocks :: Sudoku -> [Block]
-blocks sud = rows sud ++ transpose (rows sud)
-
-bigRow sud = [chunksOf 3 r | r <- take 3 . rows $ sud]
-square bigRows = map (concat . concat) [map p bigRows |
-                p <- [take 1, take 1 . drop 1, drop 2]]
+blocks sud = rows sud ++ transpose (rows sud) ++ allSquare sud
+ where
+  allSquare sud = map (concat . concat) [map p2 bigRow
+   | p2 <- [take 1, take 1 . drop 1, drop 2] , bigRow <- [makeBigRow p sud
+   | p  <- [take 3, take 3 . drop 3, drop 6]]]
+   where makeBigRow p sud = [chunksOf 3 r | r <- p . rows $ sud]
 
 -- Property for blcoks funktion check if there are 3*9 blocks,
 -- and each block has exactly 9 cells.
---prop_blocks =
+prop_blocks :: Sudoku -> Bool
+prop_blocks sud = ((length . blocks $ sud) == 27) &&
+                   (and [length b == 9 | b <- blocks sud])
 
 -- D3
 -- Check if the sudoku do not coantin dublicate numbers in a block
