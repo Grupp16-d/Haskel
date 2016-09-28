@@ -169,9 +169,9 @@ update :: Sudoku -> Pos -> Maybe Int -> Sudoku
 update sud (y,x) e = Sudoku (rows sud !!= (y, (rows sud !! y) !!= (x,e)))
 
 -- Checks that the updated position really has gotten the new value
-prop_update :: Sudoku -> (Int, Int) -> Maybe Int -> Bool
-prop_update sud (y,x) e = e == (rows (update sud (y,x) e) !! y) !! x
-
+prop_update :: Sudoku -> Pos -> Maybe Int -> Bool
+prop_update sud (y,x) e = if (y < 0 || x < 0 || y > 8 || x > 8) then True
+                          else (e == (rows (update sud (y,x) e) !! y) !! x)
 
 -- Assignment F
 -------------------------------------------------------------------------
