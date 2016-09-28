@@ -76,14 +76,14 @@ printSudoku sud = putStr $ unlines [[printElem e | e <- r] | r <- rows sud]
                 | otherwise    = intToDigit(fromJust e)
 
 -- B2
--- ReadSudoku file reads from the file, and either delivers it,
--- or stops if the file did not contain a sudoku
+-- Reads a given file, and either returns the sudoku
+-- or stops if the file did not contain a valid sudoku
 readSudoku :: FilePath -> IO Sudoku
 readSudoku file = do
     s <- readFile file
     if (isSudoku(symCon s)) then return (symCon s)
             else error ("Exception: Not a Sudoku!")
- where -- symCon takes the string of  '.' and numbers and returns a suduko
+ where -- symCon takes the string of  '.' and numbers and returns a sudoku
     symCon s = Sudoku [[symCon' e | e <- r] | r <- lines s]
          where
             symCon' e | e == '.'  = Nothing
@@ -104,14 +104,14 @@ instance Arbitrary Sudoku where
        return (Sudoku rows)
 
 -- C3
--- Test that generated sudukos are true
+-- Test that generated sudoku are true
 prop_Sudoku :: Sudoku -> Bool
 prop_Sudoku sud = isSudoku sud
 
 -- Assignment D
 -------------------------------------------------------------------------
 -- D1
--- Remove all dublicate numbers in a block, 
+-- Removes all dublicate numbers in a block, 
 -- then checks if the length is still 9
 isOkayBlock :: Block -> Bool
 isOkayBlock b = (length $ nubBy (\x y -> x == y && (x /= Nothing)) b) == 9
@@ -128,12 +128,12 @@ blocks sud = rows sud ++ transpose (rows sud) ++ allSquare sud
 
 -- Property for blocks function check if there are 3*9 blocks,
 -- and each block has exactly 9 cells.
-prop_blocks :: Sudoku -> Bool
-prop_blocks sud = ((length . blocks $ sud) == 27) &&
+prop_Blocks :: Sudoku -> Bool
+prop_Blocks sud = ((length . blocks $ sud) == 27) &&
                    (and [length b == 9 | b <- blocks sud])
 
 -- D3
--- Check if the sudoku do not coantin dublicate numbers in a block
+-- Checks all the blocks in a sudoku for duplicate numbers
 isOkay :: Sudoku -> Bool
 isOkay sud = and [isOkayBlock b | b <- blocks sud]
 
@@ -170,8 +170,8 @@ update :: Sudoku -> Pos -> Maybe Int -> Sudoku
 update sud (y,x) e = Sudoku (rows sud !!= (y, (rows sud !! y) !!= (x,e)))
 
 -- Checks if the updated value is correct
-prop_update :: Sudoku -> Pos -> Maybe Int -> Bool
-prop_update sud (y,x) e = if (y < 0 || x < 0 || y > 8 || x > 8) then True
+prop_Update :: Sudoku -> Pos -> Maybe Int -> Bool
+prop_Update sud (y,x) e = if (y < 0 || x < 0 || y > 8 || x > 8) then True
                           else (e == (rows (update sud (y,x) e) !! y) !! x)
 
 -- Assignment F
