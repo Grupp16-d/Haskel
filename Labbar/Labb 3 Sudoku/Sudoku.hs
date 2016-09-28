@@ -104,14 +104,15 @@ instance Arbitrary Sudoku where
        return (Sudoku rows)
 
 -- C3
--- Test that generated sudukos are ture
+-- Test that generated sudukos are true
 prop_Sudoku :: Sudoku -> Bool
 prop_Sudoku sud = isSudoku sud
 
 -- Assignment D
 -------------------------------------------------------------------------
 -- D1
--- Remove all dublicate numbers, then checks that the lenght still is 9
+-- Remove all dublicate numbers in a block, 
+-- then checks if the length is still 9
 isOkayBlock :: Block -> Bool
 isOkayBlock b = (length $ nubBy (\x y -> x == y && (x /= Nothing)) b) == 9
 
@@ -125,7 +126,7 @@ blocks sud = rows sud ++ transpose (rows sud) ++ allSquare sud
    | p  <- [take 3, take 3 . drop 3, drop 6]]]
    where makeBigRow p sud = [chunksOf 3 r | r <- p . rows $ sud]
 
--- Property for blcoks funktion check if there are 3*9 blocks,
+-- Property for blocks function check if there are 3*9 blocks,
 -- and each block has exactly 9 cells.
 prop_blocks :: Sudoku -> Bool
 prop_blocks sud = ((length . blocks $ sud) == 27) &&
@@ -147,28 +148,28 @@ blank sud = head [(iRow, iPos r)
    | (iRow, r) <- ([0..]:: [Int]) `zip` (rows sud), Nothing `elem` r]
   where iPos r = fromJust $ elemIndex Nothing r
 
--- Check that there are a Nothing at the possision given by blank
+-- Check that there is a Nothing at the position given by blank
 prop_Blank sud = (((rows sud) !! (fst $ blank sud))
                               !! (snd $ blank sud)) == Nothing
 
 -- E2
--- Change the valeu of an element. wher the element is grater then 0 and
--- less then the leght of the list
+-- Change the value of an element. where the element is greater then 0 and
+-- less then the length of the list
 (!!=) :: [a] -> (Int,a) -> [a]
 list !!= (i, e)
     | i < 0 || i > (length list)-1 = list
     | otherwise                    = (take i list) ++ (e:(drop (i+1) list))
 
--- Check if the leght of the list is the same after change.
+-- Check if the length of the list is the same after !!= is run.
 prop_ChangElem_size :: [Int] -> (Int,Int) -> Bool
 prop_ChangElem_size list p = length list == (length $ list !!= p)
 
 -- E3
---Change the valeu of a element in a givven possision
+--Changes the value of an element in a given position
 update :: Sudoku -> Pos -> Maybe Int -> Sudoku
 update sud (y,x) e = Sudoku (rows sud !!= (y, (rows sud !! y) !!= (x,e)))
 
--- Checks that the updated position really has gotten the new value
+-- Checks if the updated value is correct
 prop_update :: Sudoku -> Pos -> Maybe Int -> Bool
 prop_update sud (y,x) e = if (y < 0 || x < 0 || y > 8 || x > 8) then True
                           else (e == (rows (update sud (y,x) e) !! y) !! x)
