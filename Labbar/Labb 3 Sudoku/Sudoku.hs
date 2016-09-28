@@ -2,6 +2,7 @@ module Sudoku where
 
 import Test.QuickCheck
 import Data.List
+import Data.List.Split
 import Data.Char
 import Data.Maybe
 
@@ -114,30 +115,14 @@ prop_Sudoku sud = isSudoku sud
 isOkayBlock :: Block -> Bool
 isOkayBlock b = (length $ nubBy (\x y -> x == y && (x /= Nothing)) b) == 9
 
-{-FUNGERAR INTE MÅSTE LÄGGA TILL BLOCKS
-Måste oxå lägga till property-}
 -- D2
 -- Breaks up a Sudoku in blocks (9 rows, 9 colums and 9 3*3 blocks)
-yay sud = [(x,y,z) | (x , (y,z))
-                    <- [(x, splitAt 3 y) | (x,y)
-                    <- [splitAt 3 r | r
-                    <- rows sud]]]
-
-hej :: [(a,a,a)] -> [(a,a,a)]
-hej [(a,b,c):ds] =
--- | ----------- Exempel att kolla på---------- | ---
-
---getElem (x:y:z:zz:xs) = [x,y,z]: getElem (zz:xs)
---getElem _             = [ ]
-
--- | ------------------------------------------ | --
-
-
 blocks :: Sudoku -> [Block]
 blocks sud = rows sud ++ transpose (rows sud)
 
-square (a:b:c:ds) = [a,b,c] : square ds
-square _          = [ ]
+bigRow sud = [chunksOf 3 r | r <- take 3 . rows $ sud]
+square bigRows = map (concat . concat) [map p bigRows |
+                p <- [take 1, take 1 . drop 1, drop 2]]
 
 -- Property for blcoks funktion check if there are 3*9 blocks,
 -- and each block has exactly 9 cells.
