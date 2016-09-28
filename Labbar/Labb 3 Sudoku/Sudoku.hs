@@ -128,12 +128,12 @@ blocks sud = rows sud ++ transpose (rows sud) ++ allSquare sud
 
 -- Property for blocks function check if there are 3*9 blocks,
 -- and each block has exactly 9 cells.
-prop_Blocks :: Sudoku -> Bool
-prop_Blocks sud = ((length . blocks $ sud) == 27) &&
+prop_blocks :: Sudoku -> Bool
+prop_blocks sud = ((length . blocks $ sud) == 27) &&
                    (and [length b == 9 | b <- blocks sud])
 
 -- D3
--- Check all the blocks in a sudoku for duplicate numbers
+-- Check if the sudoku do not coantin dublicate numbers in a block
 isOkay :: Sudoku -> Bool
 isOkay sud = and [isOkayBlock b | b <- blocks sud]
 
@@ -179,7 +179,7 @@ prop_update sud (y,x) e = if (y < 0 || x < 0 || y > 8 || x > 8) then True
 -- F1
 --
 solve :: Sudoku -> Maybe Sudoku
-solve s | and [] = Nothing  -- There's a violation in s
+solve s | undefined = Nothing  -- There's a violation in s
         | undefined = Just s   -- s is already solved
         | otherwise = pickASolution possibleSolutions
   where
