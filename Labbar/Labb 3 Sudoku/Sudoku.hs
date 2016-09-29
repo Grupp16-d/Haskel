@@ -195,7 +195,7 @@ pickASolution suds = head(filter(\x -> x /= Nothing) suds)
 readAndSolve :: FilePath -> IO ()
 readAndSolve file = do
       sud <- readSudoku file
-      printSudoku (zfromJust (solve sud)   
+      printSudoku (fromJust (solve sud))   
 
 -- F3
 --
