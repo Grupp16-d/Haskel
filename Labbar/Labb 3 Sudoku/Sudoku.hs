@@ -181,14 +181,15 @@ prop_Update sud (y,x) e = if (y < 0 || x < 0 || y > 8 || x > 8) then True
 solve :: Sudoku -> Maybe Sudoku
 solve s | not . isOkay $ s = Nothing  -- There's a violation in s
         | isSolved s = Just s   -- s is already solved
-        | otherwise = pickASolution (possibleSolutions s)
+        | otherwise = pickASolution $ (possibleSolutions s) 
   where
     nineUpdatedSuds s = [update s (blank s) (Just n) | n <- [1..9]] 
                                                         :: [Sudoku]
     possibleSolutions s = [solve s' | s' <- nineUpdatedSuds s]
 
 pickASolution :: [Maybe Sudoku] -> Maybe Sudoku
-pickASolution suds = head(filter(\x -> x /= Nothing) suds)
+pickASolution suds | (length . nub $ suds) == 1 = Nothing 
+                   | otherwise = head (filter (\x -> x /= Nothing) suds)
 
 -- F2
 --
