@@ -188,12 +188,14 @@ solve s | not . isOkay $ s = Nothing  -- There's a violation in s
     possibleSolutions = [solve s' | s' <- nineUpdatedSuds s]
 
 pickASolution :: [Maybe Sudoku] -> Maybe Sudoku
-pickASolution suds = undefined
+pickASolution suds = head(filter(\x -> x /= Nothing) suds)
 
 -- F2
 --
 readAndSolve :: FilePath -> IO ()
-readAndSolve = undefined
+readAndSolve file = do
+      sud <- readSudoku file
+      printSudoku (zfromJust (solve sud)   
 
 -- F3
 --
