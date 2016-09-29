@@ -9,16 +9,16 @@ import Data.Maybe
 example :: Sudoku
 example =
  Sudoku
-  [ [Just 9, Just 6, Nothing,Nothing,Just 7, Just 1, Just 2, Nothing,Nothing]
-  , [Nothing,Just 5, Nothing,Nothing,Nothing,Nothing,Just 1, Just 8, Nothing]
-  , [Nothing,Nothing,Just 9, Just 2, Nothing,Just 4, Just 7, Nothing,Nothing]
-  , [Nothing,Nothing,Nothing,Nothing,Just 1, Just 3, Nothing,Just 2, Just 8]
-  , [Just 4, Nothing,Nothing,Just 5, Nothing,Just 2, Nothing,Nothing,Just 9]
-  , [Just 2, Just 7, Nothing,Just 4, Just 6, Nothing,Nothing,Nothing,Nothing]
-  , [Nothing,Nothing,Just 5, Just 3, Nothing,Just 8, Just 9, Nothing,Nothing]
-  , [Nothing,Just 8, Just 3, Nothing,Nothing,Nothing,Nothing,Just 6, Nothing]
-  , [Nothing,Nothing,Just 7, Just 6, Just 9, Nothing,Nothing,Just 4, Just 3]
-  ]
+    [[Nothing,Nothing,Just 3,Nothing,Just 2,Nothing,Just 6,Nothing,Nothing]
+    ,[Just 9,Nothing,Nothing,Just 3,Nothing,Just 5,Nothing,Nothing,Just 1]
+    ,[Nothing,Nothing,Just 1,Just 8,Nothing,Just 6,Just 4,Nothing,Nothing]
+    ,[Nothing,Nothing,Just 8,Just 1,Nothing,Just 2,Just 9,Nothing,Nothing]
+    ,[Just 7,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Just 8]
+    ,[Nothing,Nothing,Just 6,Just 7,Nothing,Just 8,Just 2,Nothing,Nothing]
+    ,[Nothing,Nothing,Just 2,Just 6,Nothing,Just 9,Just 5,Nothing,Nothing]
+    ,[Just 8,Nothing,Nothing,Just 2,Nothing,Just 3,Nothing,Nothing,Just 9]
+    ,[Nothing,Nothing,Just 5,Nothing,Just 1,Nothing,Just 3,Nothing,Nothing]]
+
 example2 :: Sudoku
 example2 =
    Sudoku
@@ -179,8 +179,8 @@ prop_Update sud (y,x) e = if (y < 0 || x < 0 || y > 8 || x > 8) then True
 -- F1
 --
 solve :: Sudoku -> Maybe Sudoku
-solve s | undefined = Nothing  -- There's a violation in s
-        | undefined = Just s   -- s is already solved
+solve s | not . isOkay $ s = Nothing  -- There's a violation in s
+        | isSolved s = Just s   -- s is already solved
         | otherwise = pickASolution possibleSolutions
   where
     nineUpdatedSuds   = undefined :: [Sudoku]
