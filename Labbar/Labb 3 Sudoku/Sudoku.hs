@@ -205,7 +205,9 @@ readAndSolve file = do
 -- if  it is then print the same soduko
 -- else it sends it to the solv funktion.
 isSolutionOf :: Sudoku -> Sudoku -> Bool
-isSolutionOf sud = undefined
+isSolutionOf sud1 sud2 = isOkay sud1 && isSolved sud1 &&
+    and[x == y || y == Nothing |
+    (x,y) <- zip (concat (rows sud1)) (concat (rows sud2)) ]
 
 -- F4
 -- check if the solved sudoku is aktuly a solution to the original sudoku.
