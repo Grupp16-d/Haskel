@@ -111,7 +111,7 @@ prop_Sudoku sud = isSudoku sud
 -- Assignment D
 -------------------------------------------------------------------------
 -- D1
--- Removes all dublicate numbers in a block, 
+-- Removes all dublicate numbers in a block,
 -- then checks if the length is still 9
 isOkayBlock :: Block -> Bool
 isOkayBlock b = (length $ nubBy (\x y -> x == y && (x /= Nothing)) b) == 9
@@ -177,34 +177,38 @@ prop_Update sud (y,x) e = if (y < 0 || x < 0 || y > 8 || x > 8) then True
 -- Assignment F
 -------------------------------------------------------------------------
 -- F1
+-- Solving the soduko if it is okay and not alredy solved.
 --
 solve :: Sudoku -> Maybe Sudoku
 solve s | not . isOkay $ s = Nothing  -- There's a violation in s
         | isSolved s = Just s   -- s is already solved
-        | otherwise = pickASolution $ (possibleSolutions s) 
+        | otherwise = pickASolution $ (possibleSolutions s)
   where
-    nineUpdatedSuds s = [update s (blank s) (Just n) | n <- [1..9]] 
+    nineUpdatedSuds s = [update s (blank s) (Just n) | n <- [1..9]]
                                                         :: [Sudoku]
     possibleSolutions s = [solve s' | s' <- nineUpdatedSuds s]
 
+-- Picking a solution if the soduko isent
 pickASolution :: [Maybe Sudoku] -> Maybe Sudoku
-pickASolution suds | (length . nub $ suds) == 1 = Nothing 
+pickASolution suds | (length . nub $ suds) == 1 = Nothing
                    | otherwise = head (filter (\x -> x /= Nothing) suds)
 
 -- F2
---
+-- Reding a sudoku using the read funktion and then solving it.
 readAndSolve :: FilePath -> IO ()
 readAndSolve file = do
       sud <- readSudoku file
-      printSudoku (fromJust (solve sud))   
+      printSudoku (fromJust (solve sud))
 
 -- F3
---
+-- Check if the given soduko is a mach with another already solved sudoku.
+-- if  it is then print the same soduko
+-- else it sends it to the solv funktion.
 isSolutionOf :: Sudoku -> Sudoku -> Bool
-isSolutionOf = undefined
+isSolutionOf sud = undefined
 
 -- F4
---
+-- check if the solved sudoku is aktuly a solution to the original sudoku.
 prop_SolveSound :: Sudoku -> Property
 prop_SolveSound = undefined
 
