@@ -211,8 +211,11 @@ isSolutionOf solution sud = isOkay solution && isSolved solution &&
 
 -- F4
 -- check if the solved sudoku is aktuly a solution to the original sudoku.
-prop_SolveSound :: Sudoku -> Property
-prop_SolveSound = undefined
+prop_SolveSound :: Sudoku -> Bool
+prop_SolveSound sud
+    | (solution sud) == Nothing = True
+    | otherwise                 = fromJust(solution sud) `isSolutionOf` sud
+     where solution sud = solve sud
 
 -- Assignment x
 -------------------------------------------------------------------------
