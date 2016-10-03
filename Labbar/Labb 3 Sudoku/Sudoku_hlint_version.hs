@@ -216,16 +216,3 @@ isSolutionOf solution sud =
 prop_SolveSound :: Sudoku -> Bool
 prop_SolveSound sud | isNothing (solve sud) = True
                     | otherwise = fromJust(solve sud) `isSolutionOf` sud
-
-
--- Assignment x
--------------------------------------------------------------------------
-
--- Assignment z
--------------------------------------------------------------------------
-
--- Assignment P
--------------------------------------------------------------------------
-
--- Assignment q
--------------------------------------------------------------------------
