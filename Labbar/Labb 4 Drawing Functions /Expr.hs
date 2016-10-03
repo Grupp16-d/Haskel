@@ -1,3 +1,4 @@
+module Expr where
 
 import Test.QuickCheck
 import Data.List
@@ -7,7 +8,7 @@ import Data.List.Split
 -- Assignment A
 -------------------------------------------------------------------------
 --
-Expr 
+data Expr = 
 
 -- Assignment B
 -------------------------------------------------------------------------
@@ -33,9 +34,3 @@ readExpr = undefined
 --
 prop_ShowReadExpr :: Expr -> Bool
 prop_ShowReadExpr = undefined
-
--- | -----------------Part II-----------------------------------------|--
--- Assigment F
--------------------------------------------------------------------------
---
-
