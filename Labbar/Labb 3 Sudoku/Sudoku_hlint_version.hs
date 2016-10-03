@@ -22,15 +22,15 @@ example =
 example2 :: Sudoku
 example2 =
    Sudoku
-    [ [Just 1, Just 1, Just 1, Just 1, Just 1, Just 1, Just 1, Just 1, Just 1]
-    , [Just 2, Just 2, Just 2, Just 2, Just 2, Just 2, Just 2, Just 2, Just 2]
-    , [Just 3, Just 3, Just 3, Just 3, Just 3, Just 3, Just 3, Just 3, Just 3]
-    , [Just 4, Just 4, Just 4, Just 4, Just 4, Just 4, Just 4, Just 4, Just 4]
-    , [Just 5, Just 5, Just 5, Just 5, Just 5, Just 5, Just 5, Just 5, Just 5]
-    , [Just 6, Just 6, Just 6, Just 6, Just 6, Just 6, Just 6, Just 6 ,Just 6]
-    , [Just 7, Just 7, Just 7, Just 7, Just 7, Just 7, Just 7, Just 7 ,Just 7]
-    , [Just 8, Just 8, Just 8, Just 8, Just 8, Just 8, Just 8, Just 8 ,Just 8]
-    , [Just 9, Just 9, Just 9, Just 9, Just 9, Just 9, Just 9, Just 9 ,Just 9]
+    [[Just 1, Just 1, Just 1, Just 1, Just 1, Just 1, Just 1, Just 1, Just 1]
+    ,[Just 2, Just 2, Just 2, Just 2, Just 2, Just 2, Just 2, Just 2, Just 2]
+    ,[Just 3, Just 3, Just 3, Just 3, Just 3, Just 3, Just 3, Just 3, Just 3]
+    ,[Just 4, Just 4, Just 4, Just 4, Just 4, Just 4, Just 4, Just 4, Just 4]
+    ,[Just 5, Just 5, Just 5, Just 5, Just 5, Just 5, Just 5, Just 5, Just 5]
+    ,[Just 6, Just 6, Just 6, Just 6, Just 6, Just 6, Just 6, Just 6 ,Just 6]
+    ,[Just 7, Just 7, Just 7, Just 7, Just 7, Just 7, Just 7, Just 7 ,Just 7]
+    ,[Just 8, Just 8, Just 8, Just 8, Just 8, Just 8, Just 8, Just 8 ,Just 8]
+    ,[Just 9, Just 9, Just 9, Just 9, Just 9, Just 9, Just 9, Just 9 ,Just 9]
     ]
 
 -------------------------------------------------------------------------
@@ -205,9 +205,11 @@ readAndSolve file = do
 -- if  it is then print the same soduko
 -- else it sends it to the solv funktion.
 isSolutionOf :: Sudoku -> Sudoku -> Bool
-isSolutionOf solution sud = isOkay solution && isSolved solution &&
-    and[x == y || isNothing y |
-    (x,y) <- zip (concat (rows solution)) (concat (rows sud)) ]
+isSolutionOf solution sud =
+        isOkay solution
+    && isSolved solution
+    && and[x == y || isNothing y |
+          (x,y) <- zip (concat (rows solution)) (concat (rows sud)) ]
 
 -- F4
 -- check if the solved sudoku is aktuly a solution to the original sudoku.
