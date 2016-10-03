@@ -1,4 +1,3 @@
-module Expr where
 
 import Test.QuickCheck
 import Data.List
@@ -8,7 +7,7 @@ import Data.List.Split
 -- Assignment A
 -------------------------------------------------------------------------
 --
-
+Expr 
 
 -- Assignment B
 -------------------------------------------------------------------------
