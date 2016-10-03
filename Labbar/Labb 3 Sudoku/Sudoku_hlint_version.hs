@@ -150,7 +150,7 @@ blank sud = head [(iRow, iPos r)
 
 -- Check that there is a Nothing at the position given by blank
 prop_Blank sud = isNothing ((rows sud
-                                 !! fst (blank sud)) 
+                                 !! fst (blank sud))
                                  !! snd (blank sud))
 -- E2
 -- Change the value of an element. where the element is greater then 0 and
@@ -214,7 +214,7 @@ isSolutionOf solution sud = isOkay solution && isSolved solution &&
 prop_SolveSound :: Sudoku -> Bool
 prop_SolveSound sud | isNothing (solve sud) = True
                     | otherwise = fromJust(solve sud) `isSolutionOf` sud
-                    
+
 
 -- Assignment x
 -------------------------------------------------------------------------
