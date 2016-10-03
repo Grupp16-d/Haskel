@@ -8,7 +8,11 @@ import Data.List.Split
 -- Assignment A
 -------------------------------------------------------------------------
 --
-data Expr = lars
+data Expr = Num Integer
+        | add Expr Expr
+        | mul Expr Expr
+        
+    deriving (Eq,Show)
 
 -- Assignment B
 -------------------------------------------------------------------------
