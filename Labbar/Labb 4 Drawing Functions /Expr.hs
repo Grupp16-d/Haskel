@@ -9,16 +9,17 @@ import Data.List.Split
 -------------------------------------------------------------------------
 --
 data Expr = Num Double
-          | Var String
+          | Var VarName
           | Add Expr Expr
           | Mul Expr Expr
           | Cos Expr
           | Sin Expr
-        
     deriving Eq
 
+type VarName = String
+
 instance Show Expr where
-	show = showExpr
+    show = showExpr
 
 -- Assignment B
 -------------------------------------------------------------------------
@@ -31,10 +32,11 @@ showExpr (Mul e1 e2) = showFactor e1 ++ " * " ++ showFactor e2
 showExpr (Cos e)     = "Cos " ++ showTrig e
 showExpr (Sin e)     = "sin " ++ showTrig e
 
-showFactor (Add a b) = "(" ++ showExpr (Add a b) ++ ")" 
-showFactor e = showExpr e
-showTrig (Var x) = x
-showTrig e = "(" ++ showExpr e ++ ")"
+  where showFactor (Add a b) = "(" ++ showExpr (Add a b) ++ ")"
+        showFactor e         = showExpr e
+
+        showTrig (Var x) = x
+        showTrig e       = "(" ++ showExpr e ++ ")"
 
 
 --Assigment C
