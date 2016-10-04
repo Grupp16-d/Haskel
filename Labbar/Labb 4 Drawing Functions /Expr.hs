@@ -8,17 +8,33 @@ import Data.List.Split
 -- Assignment A
 -------------------------------------------------------------------------
 --
-data Expr = Num Integer
-        | add Expr Expr
-        | mul Expr Expr
+data Expr = Num Double
+          | Var String
+          | Add Expr Expr
+          | Mul Expr Expr
+          | Cos Expr
+          | Sin Expr
         
-    deriving (Eq,Show)
+    deriving Eq
+
+instance Show Expr where
+	show = showExpr
 
 -- Assignment B
 -------------------------------------------------------------------------
 --
 showExpr :: Expr -> String
-showExpr = undefined
+showExpr (Num n)     = show n
+showExpr (Var x)     = x
+showExpr (Add e1 e2) = showExpr e1 ++ " + " ++ showExpr e2
+showExpr (Mul e1 e2) = showFactor e1 ++ " * " ++ showFactor e2
+showExpr (Cos e)     = "Cos " ++ showTrig e
+showExpr (Sin e)     = "sin " ++ showTrig e
+  where 
+  	showFactor (Add a b) = "("++showExpr (Add a b)++")" 
+  	showFactor e = showExpr e
+  	showTrig (Var x) = x
+  	showTrig e = "("++showExpr e++")"
 
 
 --Assigment C
