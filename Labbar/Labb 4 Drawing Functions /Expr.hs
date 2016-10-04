@@ -30,11 +30,11 @@ showExpr (Add e1 e2) = showExpr e1 ++ " + " ++ showExpr e2
 showExpr (Mul e1 e2) = showFactor e1 ++ " * " ++ showFactor e2
 showExpr (Cos e)     = "Cos " ++ showTrig e
 showExpr (Sin e)     = "sin " ++ showTrig e
-  where 
-  	showFactor (Add a b) = "("++showExpr (Add a b)++")" 
-  	showFactor e = showExpr e
-  	showTrig (Var x) = x
-  	showTrig e = "("++showExpr e++")"
+
+showFactor (Add a b) = "(" ++ showExpr (Add a b) ++ ")" 
+showFactor e = showExpr e
+showTrig (Var x) = x
+showTrig e = "(" ++ showExpr e ++ ")"
 
 
 --Assigment C
