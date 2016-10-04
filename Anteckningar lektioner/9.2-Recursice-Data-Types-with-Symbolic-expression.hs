@@ -24,14 +24,9 @@ showExpr (Num n)     = show n
 showExpr (Var v)     = v
 showExpr (Add e1 e2) = showExpr e1   ++ " + " ++ showExpr e2
 showExpr (Mul e1 e2) = showFactor e1 ++ " * " ++ showFactor e2
-<<<<<<< HEAD
     where 
       showFactor (Add e1 e2) = "(" ++ showExpr (Add e1 e2) ++ ")"
       showFactor e           = showExpr e
-=======
-    where showFactor (Add e1 e2) = "(" ++ showExpr (Add e1 e2) ++ ")"
-          showFactor e           = showExpr e
->>>>>>> origin/master
 
 -- Gives a list of all the varialbe names
 vars :: Expr -> [VarName]
