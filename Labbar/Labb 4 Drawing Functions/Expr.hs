@@ -8,7 +8,8 @@ import Data.Maybe
 -- | ------------------------- Part I --------------------------------|--
 -- Assignment A
 -------------------------------------------------------------------------
---
+-- Design a (recursive) datatype Expr that represents expressions
+-- Var, add, mul, cos, sin
 data Expr = Num Double
           | Var VarName
           | Add Expr Expr
@@ -23,6 +24,7 @@ instance Show Expr where
     show = showExpr
 
 ex1 = Cos (Add (Num 0.5) (Mul (Num 0.5) (Num 1)))
+
 -- Assignment B
 -------------------------------------------------------------------------
 --
@@ -69,3 +71,5 @@ readExpr = undefined
 --
 prop_ShowReadExpr :: Expr -> Bool
 prop_ShowReadExpr = undefined
+
+-- | -----------------------------------------------------------------|--
