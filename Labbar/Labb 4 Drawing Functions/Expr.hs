@@ -21,10 +21,7 @@ type VarName = String
 instance Show Expr where
     show = showExpr
 
-<<<<<<< HEAD
 ex1 = Cos (Add (Num 0.5) (Mul (Num 0.5) (Num 1)))
-=======
->>>>>>> parent of 2f537d1... test
 -- Assignment B
 -------------------------------------------------------------------------
 --
@@ -36,7 +33,6 @@ showExpr (Mul e1 e2) = showFactor e1 ++ " * " ++ showFactor e2
 showExpr (Cos e)     = "Cos " ++ showTrig e
 showExpr (Sin e)     = "sin " ++ showTrig e
 
-<<<<<<< HEAD
 showFactor :: Expr -> String
 showFactor (Add a b) = "(" ++ showExpr (Add a b) ++ ")"
 showFactor e         = showExpr e
@@ -44,37 +40,23 @@ showTrig :: Expr -> String
 showTrig (Var x) = x
 showTrig e       = "(" ++ showExpr e ++ ")"
 
-test 35 = "funkar"
-test a = test' a
- where test' a = test (a+1)
-=======
-  where showFactor (Add a b) = "(" ++ showExpr (Add a b) ++ ")"
-        showFactor e         = showExpr e
-
-        showTrig (Var x) = x
-        showTrig e       = "(" ++ showExpr e ++ ")"
-
-
->>>>>>> parent of 2f537d1... test
 --Assigment C
 -------------------------------------------------------------------------
 --
 eval :: Expr -> Double -> Double
-<<<<<<< HEAD
 eval (Num n) valX     = n
 eval (Var x) valX     = valX
-eval (Add e1 e2) valX = 
+eval (Add e1 e2) valX = undefined
 
 type Tabel = [(VarName,Integer)]
-eval :: Tabel -> Expr -> Integer
-eval t (Num n)     = n
-eval t (Var x)     = fromJust $ lookup x t
-eval t (Add e1 e2) = eval t e1 + eval t e2
-eval t (Mul e1 e2) = eval t e1 * eval t e2
-=======
-eval = undefined
 
->>>>>>> parent of 2f537d1... test
+--eval' :: Tabel -> Expr -> Double
+eval' t (Num n)     = n
+eval' t (Var x)     = fromJust $ lookup x t
+eval' t (Add e1 e2) = eval' t e1 + eval' t e2
+eval' t (Mul e1 e2) = eval' t e1 * eval' t e2
+eval' _ _ = undefined
+
 --Assigment D
 -------------------------------------------------------------------------
 --
