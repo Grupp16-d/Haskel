@@ -29,9 +29,14 @@ showExpr :: Expr -> String
 showExpr (Num n)     = show n
 showExpr (Add e1 e2) = showExpr e1   ++ " + " ++ showExpr e2
 showExpr (Mul e1 e2) = showFactor e1 ++ " * " ++ showFactor e2
+<<<<<<< HEAD
     where 
       showFactor (Add e1 e2) = "(" ++ showExpr (Add e1 e2) ++ ")"
       showFactor e           = showExpr e
+=======
+    where showFactor (Add e1 e2) = "(" ++ showExpr (Add e1 e2) ++ ")"
+          showFactor e           = showExpr e
+>>>>>>> origin/master
 
 -- Generate a random Expr for quickCheck
 -- :t sized :: (Int -> Gen a) -> Gen a
