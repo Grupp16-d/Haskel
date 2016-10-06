@@ -10,14 +10,13 @@ import Data.Maybe
 -- Recursive data types fro sin, cos, addision, multiplication String
 --
 data Expr = Num Double
-          | Var VarName
+          | Var
           | Add Expr Expr
           | Mul Expr Expr
           | Cos Expr
           | Sin Expr
     deriving Eq
 
-type VarName = String
 
 instance Show Expr where
     show = showExpr
@@ -30,7 +29,7 @@ ex1 = Cos (Add (Num 0.5) (Mul (Num 0.5) (Var "x")))
 showExpr :: Expr -> String
 showExpr expr = case expr of
     (Num n)     -> show n
-    (Var x)     -> x
+    Var         -> x
     (Add e1 e2) -> showExpr e1 ++ " + " ++ showExpr e2
     (Mul e1 e2) -> showFactor e1 ++ " * " ++ showFactor e2
     (Cos e)     -> "Cos " ++ showTrig e
@@ -47,7 +46,7 @@ showExpr expr = case expr of
 -- calculates the value of the expression.
 eval :: Expr -> Double -> Double
 eval (Num n)     valX = n
-eval (Var x)     valX = valX
+eval Var         valX = valX
 eval (Add e1 e2) valX = eval e1 valX + eval e2 valX
 eval (Mul e1 e2) valX = eval e1 valX * eval e2 valX
 eval (Cos e1)    valX = cos(eval e1 valX)
@@ -56,8 +55,14 @@ eval (Sin e1)    valX = sin(eval e1 valX)
 -- Assigment D
 -------------------------------------------------------------------------
 --
+type Parser a = String -> Maybe (a, String)
+-- Given a string returns Just Expr if the string is on Expr
+--
+
 readExpr :: String -> Maybe Expr
-readExpr = undefined
+readExpr s = case parseExpr (Filter (not . isSpace) s) of
+    Just(e, "") -> Just e
+                -> Nothing
 
 --Assigment E
 -------------------------------------------------------------------------
@@ -66,3 +71,4 @@ readExpr = undefined
 -- produce "the same" result as the expression you started with.
 prop_ShowReadExpr :: Expr -> Bool
 prop_ShowReadExpr = undefined
+
