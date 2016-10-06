@@ -28,20 +28,18 @@ ex1 = Cos (Add (Num 0.5) (Mul (Num 0.5) (Var "x")))
 -------------------------------------------------------------------------
 -- A function that converts any expression to a string
 showExpr :: Expr -> String
-showExpr (Num n)     = show n
-showExpr (Var x)     = x
-showExpr (Add e1 e2) = showExpr e1 ++ " + " ++ showExpr e2
-showExpr (Mul e1 e2) = showFactor e1 ++ " * " ++ showFactor e2
-showExpr (Cos e)     = "Cos " ++ showTrig e
-showExpr (Sin e)     = "Sin " ++ showTrig e
-
--- Needed these as toplevel functions becuse where  did not work as intended
-showFactor :: Expr -> String
-showFactor (Add a b) = "(" ++ showExpr (Add a b) ++ ")"
-showFactor e         = showExpr e
-showTrig :: Expr -> String
-showTrig (Var x) = x
-showTrig e       = "(" ++ showExpr e ++ ")"
+showExpr expr = case expr of
+    (Num n)     -> show n
+    (Var x)     -> x
+    (Add e1 e2) -> showExpr e1 ++ " + " ++ showExpr e2
+    (Mul e1 e2) -> showFactor e1 ++ " * " ++ showFactor e2
+    (Cos e)     -> "Cos " ++ showTrig e
+    (Sin e)     -> "Sin " ++ showTrig e
+  where
+    showFactor (Add a b) = "(" ++ showExpr (Add a b) ++ ")"
+    showFactor e         = showExpr e
+    showTrig (Var x) = x
+    showTrig e       = "(" ++ showExpr e ++ ")"
 
 -- Assigment C
 -------------------------------------------------------------------------
