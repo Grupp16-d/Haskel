@@ -27,6 +27,7 @@ ex2 = Add (Mul (Num 2)(Num 3))(Mul (Num 4)(Num 5))
 ex3 = Sin Var
 ex4 = Sin (Cos Var)
 ex5 = Add (Sin Var) (Cos Var)
+ex6 = Add (Add Var (Num 1)) Var
 
 -- Assignment B
 -------------------------------------------------------------------------
@@ -109,5 +110,35 @@ chain p op f s = case p s of
 -- using the functions showExpr and readExpr
 -- produce "the same" result as the expression you started with.
 prop_ShowReadExpr :: Expr -> Bool
-prop_ShowReadExpr = undefined
+prop_ShowReadExpr exp = (readExpr . showExpr $ exp) == (Just . assoc $ exp)
 
+
+rExp :: Int -> Gen Expr
+rExp s = frequency [(1,rNum), (1, return Var) ,(s,rBin), (s', rTrig)]
+  where 
+   rNum = do
+     n <- arbitrary
+     return $ Num n
+   rTrig = do
+     func <- elements [Sin, Cos]
+     e1   <- rExp s'
+     return $ func e1
+   rBin = do
+     op <- elements [Add,Mul]
+     e1 <- rExp s'
+     e2 <- rExp s'
+     return $ op e1 e2
+     
+   s' = s `div` 2 
+  
+instance Arbitrary Expr
+  where arbitrary = sized rExp
+
+assoc :: Expr -> Expr
+assoc (Add (Add e1 e2) e3) = assoc $ Add e1 (Add e2 e3)
+assoc (Mul (Mul e1 e2) e3) = assoc $ Mul e1 (Mul e2 e3)
+assoc (Mul e1 e2)          = Mul (assoc e1) (assoc e2) 
+assoc (Add e1 e2)          = Add (assoc e1) (assoc e2)
+assoc (Sin e1)             = Sin (assoc e1)
+assoc (Cos e1)             = Cos (assoc e1)
+assoc e                    = e
