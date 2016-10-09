@@ -16,11 +16,11 @@ data Expr = Num Double
           | Mul Expr Expr
           | Cos Expr
           | Sin Expr
-    deriving Eq
+    deriving (Eq, Show)
 
 
-instance Show Expr where
-  show = showExpr
+--instance Show Expr where
+  --show = showExpr
 
 ex1 = Cos (Add (Num 0.5) (Mul (Num 0.5) Var))
 ex2 = Add (Mul (Num 2)(Num 3))(Mul (Num 4)(Num 5))
@@ -73,23 +73,26 @@ readExpr :: String -> Maybe Expr
 readExpr s = case expr (filter (not . isSpace) s) of
     Just(e, "") -> Just e
     _           -> Nothing
-    
-expr   = chain term '+' Add
-term   = chain factor '*' Mul
+  where  
+    expr   = chain term '+' Add
+    term   = chain factor '*' Mul
 
-factor ('(':s) = case expr s of
-                      Just (e, ')':s1) -> Just (e,s1)
-                      _                -> Nothing
-factor ('s':'i':'n':s) = case factor s of
-    Just (e, s1) -> Just (Sin e, s1)
-    _            -> Nothing
-factor ('c':'o':'s':s) = case factor s of 
-    Just (e, s1) -> Just (Cos e, s1)
-    _            -> Nothing
-factor s               = num s
-num s = case reads s :: [(Double, String)] of
-  (n,s1):xs  -> Just (Num n, s1)
-  []         -> Nothing      
+    factor ('(':s) = case expr s of
+                          Just (e, ')':s1) -> Just (e,s1)
+                          _                -> Nothing
+    factor ('s':'i':'n':s) = case factor s of
+        Just (e, s1) -> Just (Sin e, s1)
+        _            -> Nothing
+    factor ('c':'o':'s':s) = case factor s of 
+        Just (e, s1) -> Just (Cos e, s1)
+        _            -> Nothing
+    factor ('x':s)         = Just (Var, s)    
+    factor s               = num s
+    num s = case reads s :: [(Double, String)] of
+        [] -> Nothing
+        _  -> case Just . head . reads $ s :: Maybe (Double, String) of
+                Just (n,s1) -> Just (Num n, s1)
+                _           -> Nothing
 
 
 -- A chain of ps, separated by the op character,
