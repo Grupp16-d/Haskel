@@ -64,11 +64,10 @@ eval (Sin e1)    valX = sin(eval e1 valX)
 --
 type Parser a = String -> Maybe (a, String)
 -- Given a string returns Just Expr if the string is on Expr
--- VARIABELS
 -- Expession = sum     of terms
 -- terms     = product of factors
--- factors   = trigExpr or expression in brackets or an number
--- trigExpr  = factors
+-- factors   = trigExpr or expression in brackets or an number or a Variable
+-- trigExpr  = are the trigExpr applied to a factors
 readExpr :: String -> Maybe Expr
 readExpr s = case expr (filter (not . isSpace) s) of
     Just(e, "") -> Just e
