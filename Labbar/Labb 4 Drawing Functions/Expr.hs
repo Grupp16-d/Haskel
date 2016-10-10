@@ -100,7 +100,7 @@ chain p op f s = case p s of
            |c == op -> case chain p op f s1 of
                                Just(e,s2) -> Just (f ne e, s2)
                                Nothing    -> Just (ne,c:s1)
-  r               -> r
+  r                 -> r
 --Assigment E
 -------------------------------------------------------------------------
 -- A property that checks if an expression
@@ -125,7 +125,6 @@ rExp s = frequency [(1,rNum), (1, return Var) ,(s,rBin), (s', rTrig)]
      e1 <- rExp s'
      e2 <- rExp s'
      return $ op e1 e2
-
    s' = s `div` 2
 
 --
