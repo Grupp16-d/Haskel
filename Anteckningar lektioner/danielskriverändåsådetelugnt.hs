@@ -1,6 +1,6 @@
 import Data.Char(isSpace,isDigit)
 
-data Expr 
+data Expr
     = Num Integer
     | Add Expr Expr
     | Mul Expr Expr
@@ -10,7 +10,7 @@ type Parser a = String -> Maybe (a,String)
 
 number:: Parser Integer
 number (c:cs) | isDigit c = Just (read digits, rest)
-  where 
+  where
     digits = c:takeWhile isDigit cs
     rest   =   dropWhile isDigit cs
 
@@ -38,17 +38,13 @@ chain p op f s = case p s of
   r                                         -> r
 
 
-
-
-
 ----------------------------------------------------------------
 last3' :: [a] -> Maybe (a,a,a)
-last3' xs = h (reverse xs) 
+last3' xs = h (reverse xs)
   where
     h (c:b:a:_) = Just (a,b,c)
     h _         = Nothing
 
-last3 cs = case reverse xs of 
+last3 cs = case reverse xs of
   (c:b:a:_) -> Just ( a,b,c)
-  _         -> Nothing 
-      
+  _         -> Nothing
