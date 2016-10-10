@@ -178,7 +178,6 @@ prop_Update sud (y,x) e = if y < 0 || x < 0 || y > 8 || x > 8 then True
 -------------------------------------------------------------------------
 -- F1
 -- Solving the soduko if it is okay and not alredy solved.
---
 solve :: Sudoku -> Maybe Sudoku
 solve s | not . isOkay $ s = Nothing  -- There's a violation in s
         | isSolved s = Just s   -- s is already solved

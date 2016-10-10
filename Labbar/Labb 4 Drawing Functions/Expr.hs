@@ -9,7 +9,6 @@ import Data.Char
 -- Assignment A
 -------------------------------------------------------------------------
 -- Recursive data types fro sin, cos, addision, multiplication String
---
 data Expr = Num Double
           | Var
           | Add Expr Expr
@@ -18,10 +17,7 @@ data Expr = Num Double
           | Sin Expr
     deriving (Eq, Show)
 
-
---instance Show Expr where
-  --show = showExpr
-
+--
 ex1 = Cos (Add (Num 0.5) (Mul (Num 0.5) Var))
 ex2 = Add (Mul (Num 2)(Num 3))(Mul (Num 4)(Num 5))
 ex3 = Sin Var
@@ -64,6 +60,7 @@ eval (Sin e1)    valX = sin(eval e1 valX)
 -------------------------------------------------------------------------
 --
 type Parser a = String -> Maybe (a, String)
+
 -- Given a string returns Just Expr if the string is on Expr
 -- Expession = sum     of terms
 -- terms     = product of factors
@@ -73,7 +70,7 @@ readExpr :: String -> Maybe Expr
 readExpr s = case expr (filter (not . isSpace) s) of
     Just(e, "") -> Just e
     _           -> Nothing
-  where  
+  where
     expr   = chain term '+' Add
     term   = chain factor '*' Mul
 
@@ -83,10 +80,10 @@ readExpr s = case expr (filter (not . isSpace) s) of
     factor ('s':'i':'n':s) = case factor s of
         Just (e, s1) -> Just (Sin e, s1)
         _            -> Nothing
-    factor ('c':'o':'s':s) = case factor s of 
+    factor ('c':'o':'s':s) = case factor s of
         Just (e, s1) -> Just (Cos e, s1)
         _            -> Nothing
-    factor ('x':s)         = Just (Var, s)    
+    factor ('x':s)         = Just (Var, s)
     factor s               = num s
     num s = case reads s :: [(Double, String)] of
         [] -> Nothing
@@ -112,10 +109,10 @@ chain p op f s = case p s of
 prop_ShowReadExpr :: Expr -> Bool
 prop_ShowReadExpr exp = (readExpr . showExpr $ exp) == (Just . assoc $ exp)
 
-
+--
 rExp :: Int -> Gen Expr
 rExp s = frequency [(1,rNum), (1, return Var) ,(s,rBin), (s', rTrig)]
-  where 
+  where
    rNum = do
      n <- arbitrary
      return $ Num n
@@ -128,16 +125,18 @@ rExp s = frequency [(1,rNum), (1, return Var) ,(s,rBin), (s', rTrig)]
      e1 <- rExp s'
      e2 <- rExp s'
      return $ op e1 e2
-     
-   s' = s `div` 2 
-  
+
+   s' = s `div` 2
+
+--
 instance Arbitrary Expr
   where arbitrary = sized rExp
 
+--
 assoc :: Expr -> Expr
 assoc (Add (Add e1 e2) e3) = assoc $ Add e1 (Add e2 e3)
 assoc (Mul (Mul e1 e2) e3) = assoc $ Mul e1 (Mul e2 e3)
-assoc (Mul e1 e2)          = Mul (assoc e1) (assoc e2) 
+assoc (Mul e1 e2)          = Mul (assoc e1) (assoc e2)
 assoc (Add e1 e2)          = Add (assoc e1) (assoc e2)
 assoc (Sin e1)             = Sin (assoc e1)
 assoc (Cos e1)             = Cos (assoc e1)
