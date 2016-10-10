@@ -37,12 +37,12 @@ showExpr expr = case expr of
     (Cos e)     -> "cos " ++ showTrig e
     (Sin e)     -> "sin " ++ showTrig e
   where
-    showFactor (Add a b) = '(':showExpr (Add a b) ++ ")"
+    showFactor (Add a b) =  '(':showExpr (Add a b) ++ ")"
     showFactor e         = showExpr e
     showTrig e = case e of
-      (Mul a b) -> '(':showExpr (Mul a b) ++ ")"
-      (Add a b) -> '(':showExpr (Add a b) ++ ")"
-      e         -> showExpr e
+               (Mul a b) -> '(':showExpr (Mul a b) ++ ")"
+               (Add a b) -> '(':showExpr (Add a b) ++ ")"
+               e         -> showExpr e
 
 -- Assigment C
 -------------------------------------------------------------------------
@@ -73,16 +73,15 @@ readExpr s = case expr (filter (not . isSpace) s) of
   where
     expr   = chain term '+' Add
     term   = chain factor '*' Mul
-
     factor ('(':s) = case expr s of
-                          Just (e, ')':s1) -> Just (e,s1)
-                          _                -> Nothing
+        Just (e, ')':s1) -> Just (e,s1)
+        _                -> Nothing
     factor ('s':'i':'n':s) = case factor s of
-        Just (e, s1) -> Just (Sin e, s1)
-        _            -> Nothing
+        Just (e, s1)     -> Just (Sin e, s1)
+        _                -> Nothing
     factor ('c':'o':'s':s) = case factor s of
-        Just (e, s1) -> Just (Cos e, s1)
-        _            -> Nothing
+        Just (e, s1)     -> Just (Cos e, s1)
+        _                -> Nothing
     factor ('x':s)         = Just (Var, s)
     factor s               = num s
     num s = case reads s :: [(Double, String)] of
@@ -113,19 +112,19 @@ prop_ShowReadExpr exp = (readExpr . showExpr $ exp) == (Just . assoc $ exp)
 rExp :: Int -> Gen Expr
 rExp s = frequency [(1,rNum), (1, return Var) ,(s,rBin), (s', rTrig)]
   where
-   rNum = do
-     n <- arbitrary
+   rNum  = do
+     n    <- arbitrary
      return $ Num n
    rTrig = do
      func <- elements [Sin, Cos]
      e1   <- rExp s'
      return $ func e1
-   rBin = do
-     op <- elements [Add,Mul]
-     e1 <- rExp s'
-     e2 <- rExp s'
+   rBin  = do
+     op   <- elements [Add,Mul]
+     e1   <- rExp s'
+     e2   <- rExp s'
      return $ op e1 e2
-   s' = s `div` 2
+   s'    = s `div` 2
 
 --
 instance Arbitrary Expr
