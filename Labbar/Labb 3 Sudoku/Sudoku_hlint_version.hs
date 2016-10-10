@@ -153,7 +153,7 @@ prop_Blank sud = isNothing ((rows sud
                                  !! fst (blank sud))
                                  !! snd (blank sud))
 -- E2
--- Change the value of an element. where the element is greater then 0 and
+-- Change the value of an element. Where the element is greater then 0 and
 -- less then the length of the list
 (!!=) :: [a] -> (Int,a) -> [a]
 list !!= (i, e)
@@ -187,7 +187,7 @@ solve s | not . isOkay $ s = Nothing  -- There's a violation in s
                                                         :: [Sudoku]
     possibleSolutions s = [solve s' | s' <- nineUpdatedSuds s]
 
--- Picking a solution if the soduko isent
+-- Picking a solution if the soduko isent solve 
 pickASolution :: [Maybe Sudoku] -> Maybe Sudoku
 pickASolution suds | (length . nub $ suds) == 1 = Nothing
                    | otherwise = head (filter (\x -> isJust x) suds)
