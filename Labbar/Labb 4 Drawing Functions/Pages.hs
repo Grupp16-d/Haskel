@@ -1,15 +1,10 @@
 -- This module defines helper functions for creating web pages using HASTE
-
 module Pages where
-
-
 
 import Haste
 import Haste.Prim
 import Haste.Foreign
 import Haste.DOM
-
-
 
 -- `mkDiv` makes a container element for grouping elements together
 mkDiv :: IO Elem
@@ -61,4 +56,3 @@ mkCanvas width height =
                              style "backgroundColor" =: "white",
                              prop "width"            =: show width,
                              prop "height"           =: show height]
-
