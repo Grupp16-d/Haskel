@@ -13,8 +13,10 @@ import Expr
 -- Assigment F
 -------------------------------------------------------------------------
 --
+-- scale = 0.04
+-- (300,300)
 points :: Expr -> Double -> (Int,Int) -> [Point]
-points = undefined
+points exp scale (width,heigt) = [(x , y) | x <- [1..9], y <- eval exp x, y < 300, x < 300]
 
 -- Assigment G
 -------------------------------------------------------------------------
