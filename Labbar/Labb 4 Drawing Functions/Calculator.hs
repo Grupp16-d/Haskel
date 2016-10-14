@@ -13,9 +13,8 @@ import Data.Maybe
 -- | -----------------Part II-----------------------------------------|--
 -- Assigment F
 -------------------------------------------------------------------------
---
--- scale = 0.04
--- (300,300)
+
+-- Calculates each point to be drawn on the canvas for the given expr
 points :: Expr -> Double -> (Int,Int) -> [Point]
 points exp scale (width,height) = 
       [(x , calY x) | x <- [0.0 .. fromIntegral width], 
@@ -36,6 +35,8 @@ points exp scale (width,height) =
 canWidth  = 300
 canHeight = 300
 
+-- Reads the value from the textbox and draws the graph using the points 
+-- given in the points function
 readAndDraw :: Elem -> Canvas -> IO ()
 readAndDraw elem can = do
     input <- getValue elem
@@ -46,7 +47,7 @@ main = do
     -- Elements
     canvas  <- mkCanvas canWidth canHeight   -- The drawing area
     fx      <- mkHTML "<i>f</i>(<i>x</i>)="  -- The text "f(x)="
-    input   <- mkInput 20 "y"                -- The formula input
+    input   <- mkInput 20 "x"                -- The formula input
     draw    <- mkButton "Draw graph"         -- The draw button
       -- The markup "<i>...</i>" means that the text inside should be rendered
       -- in italics.
