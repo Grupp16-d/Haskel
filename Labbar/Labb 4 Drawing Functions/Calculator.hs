@@ -22,7 +22,8 @@ points exp scale (width,height) =
       calY x <= fromIntegral height, x <= fromIntegral width, calY x >= 0]
     where      
       -- returns a pixel value of y   
-      calY x = fromIntegral height - (realToPix(eval exp (pixToReal x scale)) scale)  
+      calY x = 
+        fromIntegral height - realToPix(eval exp (pixToReal x scale)) scale
       --converts a pixel x-coordinate to a real x-coordinate
       pixToReal x s = x * s - 6      
       -- converts a real y-coordinate to a pixel y-coordinate
@@ -39,7 +40,7 @@ readAndDraw :: Elem -> Canvas -> IO ()
 readAndDraw elem can = do
     input <- getValue elem
     render can $ stroke $ path $ 
-    points (fromJust $ readExpr $ fromJust input) 0.04 (canWidth,canHeight)
+     points (fromJust $ readExpr $ fromJust input) 0.04 (canWidth,canHeight)
 
 main = do
     -- Elements
