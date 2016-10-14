@@ -18,7 +18,7 @@ import Expr
 points :: Expr -> Double -> (Int,Int) -> [Point]
 points = undefined
 --points exp scale (width,heigt) = [(x , y) | x <- [1.0..9.0], y <- eval exp x, y < 300, x < 300]
--- 
+--
 -- Assigment G
 -------------------------------------------------------------------------
 
@@ -46,6 +46,7 @@ main = do
     setStyle documentBody "backgroundColor" "lightblue"
     setStyle documentBody "textAlign" "center"
     setStyle input "fontSize" "14pt"
+    setStyle canvas "top 50vh"
     focus input
     select input
 
