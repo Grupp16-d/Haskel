@@ -1,5 +1,3 @@
-module Calculator where
-
 import Control.Monad (when)
 
 import Haste hiding (eval)
@@ -8,7 +6,9 @@ import Haste.Events
 import Haste.Graphics.Canvas
 
 import Pages
+
 import Expr
+
 -- | -----------------Part II-----------------------------------------|--
 -- Assigment F
 -------------------------------------------------------------------------
@@ -16,7 +16,8 @@ import Expr
 -- scale = 0.04
 -- (300,300)
 points :: Expr -> Double -> (Int,Int) -> [Point]
-points exp scale (width,heigt) = [(x , y) | x <- [1..9], y <- eval exp x, y < 300, x < 300]
+points = undefined
+--points exp scale (width,heigt) = [(x , y) | x <- [1.0..9.0], y <- eval exp x, y < 300, x < 300]
 -- 
 -- Assigment G
 -------------------------------------------------------------------------
@@ -31,7 +32,7 @@ main = do
     -- Elements
     canvas  <- mkCanvas canWidth canHeight   -- The drawing area
     fx      <- mkHTML "<i>f</i>(<i>x</i>)="  -- The text "f(x)="
-    input   <- mkInput 20 "x"                -- The formula input
+    input   <- mkInput 20 "y"                -- The formula input
     draw    <- mkButton "Draw graph"         -- The draw button
       -- The markup "<i>...</i>" means that the text inside should be rendered
       -- in italics.
