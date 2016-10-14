@@ -46,7 +46,6 @@ main = do
     setStyle documentBody "backgroundColor" "lightblue"
     setStyle documentBody "textAlign" "center"
     setStyle input "fontSize" "14pt"
-    setStyle mkCanvas "top 50vh"
     focus input
     select input
 
