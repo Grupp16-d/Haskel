@@ -8,6 +8,7 @@ import Haste.Graphics.Canvas
 import Pages
 
 import Expr
+import Data.Maybe
 
 -- | -----------------Part II-----------------------------------------|--
 -- Assigment F
@@ -16,8 +17,16 @@ import Expr
 -- scale = 0.04
 -- (300,300)
 points :: Expr -> Double -> (Int,Int) -> [Point]
-points = undefined
---points exp scale (width,heigt) = [(x , y) | x <- [1.0..9.0], y <- eval exp x, y < 300, x < 300]
+points exp scale (width,heigt) = [(x , calY x) | x <- [0.0 .. fromIntegral (width)], 
+                                  calY x <= fromIntegral(heigt), x <= fromIntegral(width), calY x >= 0]
+    where      
+      -- returns a pixel value of y   
+      calY x = fromIntegral(heigt) - (realToPix(eval exp (pixToReal x scale)) scale)  
+      --converts a pixel x-coordinate to a real x-coordinate
+      pixToReal x s = x * s - 6      
+      -- converts a real y-coordinate to a pixel y-coordinate
+      realToPix y s = (y + 6) / s
+
 --
 -- Assigment G
 -------------------------------------------------------------------------
@@ -26,7 +35,9 @@ canWidth  = 300
 canHeight = 300
 
 readAndDraw :: Elem -> Canvas -> IO ()
-readAndDraw = undefined
+readAndDraw elem can = do
+    input <- getValue elem
+    render can $ do stroke $ path $ points (fromJust $ readExpr $ fromJust input) 0.04 (canWidth,canHeight)
 
 main = do
     -- Elements
