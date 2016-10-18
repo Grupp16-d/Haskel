@@ -1,9 +1,11 @@
 module Expr where
 
-import Test.QuickCheck
+--import Test.QuickCheck
 import Data.List
 import Data.Maybe
 import Data.Char
+
+type Parser a = String -> Maybe (a, String)
 
 -- | ------------------------- Part I --------------------------------|--
 -- Assignment A
@@ -17,7 +19,7 @@ data Expr = Num Double
           | Sin Expr
     deriving (Eq, Show)
 
---
+--Exampels
 ex1 = Cos (Add (Num 0.5) (Mul (Num 0.5) Var))
 ex2 = Add (Mul (Num 2)(Num 3))(Mul (Num 4)(Num 5))
 ex3 = Sin Var
@@ -58,12 +60,9 @@ eval (Sin e1)    valX = sin(eval e1 valX)
 
 -- Assigment D
 -------------------------------------------------------------------------
---
-type Parser a = String -> Maybe (a, String)
-
--- Given a string returns Just Expr if the string is on Expr
--- Expession = sum     of terms
--- terms     = product of factors
+-- Given a string returns Just Expr if the string is an Expr
+-- Expession = sum      of terms
+-- terms     = product  of factors
 -- factors   = trigExpr or expression in brackets or an number or a Variable
 -- trigExpr  = are the trigExpr applied to a factors
 readExpr :: String -> Maybe Expr
@@ -100,15 +99,16 @@ chain p op f s = case p s of
                                Just(e,s2) -> Just (f ne e, s2)
                                Nothing    -> Just (ne,c:s1)
   r                 -> r
+
 --Assigment E
 -------------------------------------------------------------------------
 -- A property that checks if an expression
 -- using the functions showExpr and readExpr
 -- produce "the same" result as the expression you started with.
+
 prop_ShowReadExpr :: Expr -> Bool
 prop_ShowReadExpr exp = (readExpr . showExpr $ exp) == (Just . assoc $ exp)
 
---
 rExp :: Int -> Gen Expr
 rExp s = frequency [(1,rNum), (1, return Var) ,(s,rBin), (s', rTrig)]
   where
@@ -126,11 +126,9 @@ rExp s = frequency [(1,rNum), (1, return Var) ,(s,rBin), (s', rTrig)]
      return $ op e1 e2
    s'    = s `div` 2
 
---
 instance Arbitrary Expr
   where arbitrary = sized rExp
 
---
 assoc :: Expr -> Expr
 assoc (Add (Add e1 e2) e3) = assoc $ Add e1 (Add e2 e3)
 assoc (Mul (Mul e1 e2) e3) = assoc $ Mul e1 (Mul e2 e3)
